@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
-using WebApi.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Repositories.Contracts;
+using Repositories.EFCore;
 
 namespace WebApi.Controllers
 {
@@ -10,25 +12,24 @@ namespace WebApi.Controllers
     [ApiController]
     public class ApartmentController : ControllerBase
     {
-        private readonly RepositoryContext _context;
+        private readonly IRepositoryManager _manager;
 
-        public ApartmentController(RepositoryContext context)
+        public ApartmentController(IRepositoryManager manager)
         {
-            _context = context;
+            _manager = manager;
         }
 
         [HttpGet]
         public IActionResult GetAllApartments()
         {
-            var apartments = _context.Apartments.ToList();
+            var apartments = _manager.Apartment.GetAllApartments(false);
             return Ok(apartments);
         }
         [HttpGet("{id:int}")]
         public IActionResult GetOneApartment([FromRoute()] int id)
         {
-            var apartment = _context
-                .Apartments.Where(b => b.Id.Equals(id))
-                .SingleOrDefault();
+            var apartment = _manager
+                .Apartment.GetOneApartmentById(id, false);
             
             if(apartment is null)
             {
@@ -43,8 +44,8 @@ namespace WebApi.Controllers
             {
                 return BadRequest();
             }
-            _context.Apartments.Add(apartment);
-            _context.SaveChanges();
+            _manager.Apartment.CreateOneApartment(apartment);
+            _manager.Save();
 
             return StatusCode(201, apartment);
         }
@@ -53,10 +54,9 @@ namespace WebApi.Controllers
         public IActionResult UpdateOneApartment([FromRoute(Name ="id")]int id,
          [FromBody] Apartment apartment)
         {
-            var entity = _context
-                .Apartments
-                .Where(b => b.Id.Equals(id))
-                .SingleOrDefault();
+            var entity = _manager
+                .Apartment
+                .GetOneApartmentById(id, true);
             if (entity is null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace WebApi.Controllers
             entity.Floor = apartment.Floor;
             entity.Type = apartment.Type;
 
-            _context.SaveChanges();
+            _manager.Save();
 
             return Ok(apartment);
         }
@@ -81,10 +81,9 @@ namespace WebApi.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult DeleteOneApartment([FromRoute(Name = "id")] int id)
         {
-            var entity = _context
-                 .Apartments
-                 .Where(b => b.Id.Equals(id))
-                 .SingleOrDefault();
+            var entity = _manager
+                .Apartment
+                .GetOneApartmentById(id, false);
 
             if (entity is null)
             {
@@ -96,26 +95,27 @@ namespace WebApi.Controllers
                 });
             }
 
-            _context.Apartments.Remove(entity);
-            _context.SaveChanges();
+            _manager.Apartment.DeleteOneApartment(entity);
+            _manager.Save();
             return NoContent();
         }
         [HttpPatch("{id:int}")]
         public IActionResult PartiallyUpdateOneApartment([FromRoute(Name = "id")] int id,
             [FromBody] JsonPatchDocument<Apartment> apartmentPatch)
         {
-            var entity = _context
-                .Apartments
-                .Where(b => b.Id.Equals(id))
-                .SingleOrDefault();
-            if(entity is null)
+            var entity = _manager
+               .Apartment
+               .GetOneApartmentById(id, true);
+
+            if (entity is null)
             {
                 return NotFound();
 
             }
 
             apartmentPatch.ApplyTo(entity);
-            _context.SaveChanges();
+            _manager.Apartment.Update(entity);
+            _manager.Save();
 
             return NoContent();
         }

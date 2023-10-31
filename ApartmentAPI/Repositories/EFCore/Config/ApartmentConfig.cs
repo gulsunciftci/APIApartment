@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WebApi.Models;
 
-namespace WebApi.Repositories.Config
+
+namespace Repositories.EFCore.Config
 {
     public class ApartmentConfig : IEntityTypeConfiguration<Apartment>
     {

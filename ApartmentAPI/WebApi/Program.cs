@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using WebApi.Models;
-using WebApi.Repositories;
+using Repositories.EFCore;
+using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +11,9 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureRepositoryManager();
 
-
-builder.Services.AddDbContext<RepositoryContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"))); //database string ekleme
 
 
 var app = builder.Build();
