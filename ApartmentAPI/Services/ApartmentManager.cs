@@ -12,18 +12,16 @@ namespace Services
     public class ApartmentManager : IApartmentService
     {
         private readonly IRepositoryManager _manager;
-
-        public ApartmentManager(IRepositoryManager manager)
+        private readonly ILoggerService _logger;
+        public ApartmentManager(IRepositoryManager manager, ILoggerService logger)
         {
             _manager = manager;
+            _logger = logger;
         }
 
         public Apartment CreateOneApartment(Apartment apartment)
         {
-            if(apartment is null)
-            {
-                throw new ArgumentNullException(nameof(apartment));
-            }
+            
             _manager.Apartment.CreateOneApartment(apartment);
             _manager.Save();
             return apartment;
@@ -34,7 +32,9 @@ namespace Services
             var entity = _manager.Apartment.GetOneApartmentById(id, trackChanges);
             if(entity is null)
             {
-                throw new Exception($"Apartment with id:{id} could not found");
+                string message = $"The apartment with id:{id} could not";
+                _logger.LogInfo(message);
+                throw new Exception(message);
             }
 
             _manager.Apartment.DeleteOneApartment(entity);
@@ -57,7 +57,9 @@ namespace Services
             var entity = _manager.Apartment.GetOneApartmentById(id, trackChanges);
             if (entity is null)
             {
-                throw new Exception($"Apartment with id:{id} could not found");
+                string message = $"The apartment with id:{id} could not";
+                _logger.LogInfo(message);
+                throw new Exception(message);
             }
 
             if(apartment is null)

@@ -12,10 +12,11 @@ namespace Services
     public class ServiceManager : IServiceManager
     {
         private readonly Lazy<IApartmentService> _apartmentService;
-        public ServiceManager(IRepositoryManager repositoryManager)
+        public ServiceManager(IRepositoryManager repositoryManager,
+            ILoggerService logger)
         {
             _apartmentService = new Lazy<IApartmentService>(() => 
-            new ApartmentManager(repositoryManager));
+            new ApartmentManager(repositoryManager,logger));
         
         }
 
