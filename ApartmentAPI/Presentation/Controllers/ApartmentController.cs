@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Presentation.ActionFilters;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services.Contracts;
 
 namespace WebApi.Controllers
 {
+    [ServiceFilter(typeof(LogFilterAttribute))]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ApartmentController : ControllerBase
@@ -37,36 +39,22 @@ namespace WebApi.Controllers
           
             return Ok(apartment);
         }
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> CreateOneApartment([FromBody] ApartmentDtoForInsertion apartment)
         {
-            if (apartment is null)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return UnprocessableEntity(ModelState);
-            }
-
-            await _manager.ApartmentService.CreateOneApartmentAsync(apartment);
-            return StatusCode(201, apartment);
+        
+            var apartmentt = await _manager.ApartmentService.CreateOneApartmentAsync(apartment);
+            return StatusCode(201, apartmentt);
         }
 
+
+        
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateOneApartment([FromRoute(Name ="id")]int id,
          [FromBody] ApartmentDtoForUpdate apartmentUpdate)
         {
-
-            if(apartmentUpdate is null)
-            {
-                return BadRequest();
-            }
-            if (!ModelState.IsValid)
-            {
-                return UnprocessableEntity(ModelState);
-            }
             await _manager
                .ApartmentService
                 .UpdateOneApartmentAsync(id, apartmentUpdate,false);

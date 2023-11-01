@@ -34,12 +34,7 @@ namespace Services
 
         public async Task DeleteOneApartmentAsync(int id, bool trackChanges)
         {
-            var entity = await _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
-            if(entity is null)
-            {
-                throw new ApartmentNotFoundException(id);
-            }
-
+            var entity = await GetOneBookByIdAndCheckExists(id, trackChanges);
               _manager.Apartment.DeleteOneApartment(entity);
              await _manager.SaveAsync();
 
@@ -53,27 +48,18 @@ namespace Services
 
         public async Task<ApartmentDto> GetOneApartmentByIdAsync(int id, bool trackChanges)
         {
-            var apartment= await _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
-            if (apartment is null)
-            {
-                throw new ApartmentNotFoundException(id); 
-            }
+            var entity = await GetOneBookByIdAndCheckExists(id, trackChanges);
 
-            return _mapper.Map<ApartmentDto>(apartment);
+            return _mapper.Map<ApartmentDto>(entity);
         }
 
         public async Task<(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment)> GetOneApartmentForPatchAsync(int id, bool trackChanges)
         {
-            var apartment = await  _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
+            var entity = await GetOneBookByIdAndCheckExists(id, trackChanges);
 
-            if(apartment is null)
-            {
-                throw new ApartmentNotFoundException(id);
-            }
+            var apartmentDtoForUpdate = _mapper.Map<ApartmentDtoForUpdate>(entity);
 
-            var apartmentDtoForUpdate = _mapper.Map<ApartmentDtoForUpdate>(apartment);
-
-            return (apartmentDtoForUpdate, apartment);
+            return (apartmentDtoForUpdate, entity);
         }
 
         public async Task SaveChangesForPatchAsync(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment)
@@ -84,12 +70,7 @@ namespace Services
 
         public async Task UpdateOneApartmentAsync(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges)
         {
-            var entity = await _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
-            if (entity is null)
-            {
-                throw new ApartmentNotFoundException(id);
-            }
-
+            var entity = await GetOneBookByIdAndCheckExists(id, trackChanges);
 
             //entity.Status = apartment.Status;
             //entity.No = apartment.No;
@@ -99,6 +80,17 @@ namespace Services
             _manager.Apartment.Update(entity);
             await _manager.SaveAsync();
         }
+        private async Task<Apartment> GetOneBookByIdAndCheckExists(int id, bool trackChanges)
+        {
+            // check entity 
+            var entity = await _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
+
+            if (entity is null)
+                throw new ApartmentNotFoundException(id);
+
+            return entity;
+        }
+
 
     }
 }

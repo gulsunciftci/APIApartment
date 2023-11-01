@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using NLog;
+using Presentation.ActionFilters;
 using Repositories.EFCore;
 using Services.Contracts;
 using WebApi.Extensions;
@@ -31,11 +32,7 @@ internal class Program
             .AddNewtonsoftJson(); //PATCH metodu için
 
 
-
-
-
-
-
+     
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
@@ -51,7 +48,7 @@ internal class Program
         builder.Services.ConfigureServiceManager();
         builder.Services.ConfigureLoggerService();
         builder.Services.AddAutoMapper(typeof(Program));
-
+        builder.Services.ConfigureActionFilters();
         var app = builder.Build();
 
 
