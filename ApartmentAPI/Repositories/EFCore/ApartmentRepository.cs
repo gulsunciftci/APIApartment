@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,12 @@ namespace Repositories.EFCore
 
         public void DeleteOneApartment(Apartment apartment)=> Delete(apartment);
 
-        public IQueryable<Apartment> GetAllApartments(bool trackChanges) =>
-            FindAll(trackChanges)
-            .OrderBy(b => b.Id);
-
-        public Apartment GetOneApartmentById(int id, bool trackChanges) =>
-            FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefault();
+        public async Task<IEnumerable<Apartment>> GetAllApartmentsAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .OrderBy(b => b.Id)
+            .ToListAsync();
+        public async Task<Apartment> GetOneApartmentByIdAsync(int id, bool trackChanges) =>
+            await FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
        
 
         public void UpdateOneApartment(Apartment apartment)=>Update(apartment);

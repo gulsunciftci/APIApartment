@@ -23,22 +23,22 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllApartments()
+        public async Task<IActionResult> GetAllApartments()
         {
-            var apartments = _manager.ApartmentService.GetAllApartment(false);
+            var apartments = await _manager.ApartmentService.GetAllApartmentAsync(false);
             return Ok(apartments);
         }
         [HttpGet("{id:int}")]
-        public IActionResult GetOneApartment([FromRoute()] int id)
+        public async Task<IActionResult> GetOneApartment([FromRoute()] int id)
         {
-            var apartment = _manager
-                .ApartmentService.GetOneApartmentById(id, false);
+            var apartment = await _manager
+                .ApartmentService.GetOneApartmentByIdAsync(id, false);
             
           
             return Ok(apartment);
         }
         [HttpPost]
-        public IActionResult CreateOneApartment([FromBody] ApartmentDtoForInsertion apartment)
+        public async Task<IActionResult> CreateOneApartment([FromBody] ApartmentDtoForInsertion apartment)
         {
             if (apartment is null)
             {
@@ -50,12 +50,12 @@ namespace WebApi.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            _manager.ApartmentService.CreateOneApartment(apartment);
+            await _manager.ApartmentService.CreateOneApartmentAsync(apartment);
             return StatusCode(201, apartment);
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult UpdateOneApartment([FromRoute(Name ="id")]int id,
+        public async Task<IActionResult> UpdateOneApartment([FromRoute(Name ="id")]int id,
          [FromBody] ApartmentDtoForUpdate apartmentUpdate)
         {
 
@@ -67,22 +67,22 @@ namespace WebApi.Controllers
             {
                 return UnprocessableEntity(ModelState);
             }
-            _manager
-                .ApartmentService
-                .UpdateOneApartment(id, apartmentUpdate,false);
+            await _manager
+               .ApartmentService
+                .UpdateOneApartmentAsync(id, apartmentUpdate,false);
 
             return NoContent();
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult DeleteOneApartment([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> DeleteOneApartment([FromRoute(Name = "id")] int id)
         {
-           
-            _manager.ApartmentService.DeleteOneApartment(id, false);
+
+            await _manager.ApartmentService.DeleteOneApartmentAsync(id, false);
             return NoContent();
         }
         [HttpPatch("{id:int}")]
-        public IActionResult PartiallyUpdateOneApartment([FromRoute(Name = "id")] int id,
+        public async Task<IActionResult> PartiallyUpdateOneApartment([FromRoute(Name = "id")] int id,
             [FromBody] JsonPatchDocument<ApartmentDtoForUpdate> apartmentPatch)
         {
 
@@ -91,7 +91,7 @@ namespace WebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _manager.ApartmentService.GetOneApartmentForPatch(id, false);
+            var result = await _manager.ApartmentService.GetOneApartmentForPatchAsync(id, false);
 
             apartmentPatch.ApplyTo(result.apartmentDtoForUpdate,ModelState);
 
@@ -102,7 +102,7 @@ namespace WebApi.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            _manager.ApartmentService.SaveChangesForPatch(result.apartmentDtoForUpdate,result.apartment);
+            await _manager.ApartmentService.SaveChangesForPatchAsync(result.apartmentDtoForUpdate,result.apartment);
             
             return NoContent();
         }

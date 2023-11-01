@@ -10,13 +10,13 @@ namespace Services.Contracts
 {
     public interface IApartmentService
     {
-        IEnumerable<ApartmentDto> GetAllApartment(bool trackChanges);
-        ApartmentDto GetOneApartmentById(int id, bool trackChanges);
-        ApartmentDto CreateOneApartment(ApartmentDtoForInsertion apartment);
-        void UpdateOneApartment(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges);
-        void DeleteOneApartment(int id, bool trackChanges);
-        (ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment) GetOneApartmentForPatch(int id, bool trackChanges);
+        Task<IEnumerable<ApartmentDto>> GetAllApartmentAsync(bool trackChanges);
+        Task<ApartmentDto> GetOneApartmentByIdAsync(int id, bool trackChanges);
+        Task<ApartmentDto> CreateOneApartmentAsync(ApartmentDtoForInsertion apartment);
+        Task UpdateOneApartmentAsync(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges);
+        Task DeleteOneApartmentAsync(int id, bool trackChanges);
+        Task<(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment)> GetOneApartmentForPatchAsync(int id, bool trackChanges);
 
-        void SaveChangesForPatch(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment);
+        Task SaveChangesForPatchAsync(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment);
     }
 }

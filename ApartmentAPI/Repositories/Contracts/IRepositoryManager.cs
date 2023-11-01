@@ -10,6 +10,6 @@ namespace Repositories.Contracts
     {
         IApartmentRepository Apartment { get; }
 
-        void Save();
+        Task SaveAsync();
     }
 }

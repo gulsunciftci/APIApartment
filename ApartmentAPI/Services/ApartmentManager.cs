@@ -24,36 +24,36 @@ namespace Services
             _mapper = mapper;
         }
 
-        public ApartmentDto CreateOneApartment(ApartmentDtoForInsertion apartment)
+        public async Task<ApartmentDto> CreateOneApartmentAsync(ApartmentDtoForInsertion apartment)
         {
             var entity = _mapper.Map<Apartment>(apartment);
             _manager.Apartment.CreateOneApartment(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
             return _mapper.Map<ApartmentDto>(entity);
         }
 
-        public void DeleteOneApartment(int id, bool trackChanges)
+        public async Task DeleteOneApartmentAsync(int id, bool trackChanges)
         {
-            var entity = _manager.Apartment.GetOneApartmentById(id, trackChanges);
+            var entity = await _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
             if(entity is null)
             {
                 throw new ApartmentNotFoundException(id);
             }
 
-            _manager.Apartment.DeleteOneApartment(entity);
-            _manager.Save();
+              _manager.Apartment.DeleteOneApartment(entity);
+             await _manager.SaveAsync();
 
         }
 
-        public IEnumerable<ApartmentDto> GetAllApartment(bool trackChanges)
+        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentAsync(bool trackChanges)
         {
-            var apartments= _manager.Apartment.GetAllApartments(trackChanges);
+            var apartments= await _manager.Apartment.GetAllApartmentsAsync(trackChanges);
             return _mapper.Map<IEnumerable<ApartmentDto>>(apartments);
         }
 
-        public ApartmentDto GetOneApartmentById(int id, bool trackChanges)
+        public async Task<ApartmentDto> GetOneApartmentByIdAsync(int id, bool trackChanges)
         {
-            var apartment= _manager.Apartment.GetOneApartmentById(id, trackChanges);
+            var apartment= await _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
             if (apartment is null)
             {
                 throw new ApartmentNotFoundException(id); 
@@ -62,9 +62,9 @@ namespace Services
             return _mapper.Map<ApartmentDto>(apartment);
         }
 
-        public (ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment) GetOneApartmentForPatch(int id, bool trackChanges)
+        public async Task<(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment)> GetOneApartmentForPatchAsync(int id, bool trackChanges)
         {
-            var apartment = _manager.Apartment.GetOneApartmentById(id, trackChanges);
+            var apartment = await  _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
 
             if(apartment is null)
             {
@@ -76,15 +76,15 @@ namespace Services
             return (apartmentDtoForUpdate, apartment);
         }
 
-        public void SaveChangesForPatch(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment)
+        public async Task SaveChangesForPatchAsync(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment)
         {
             _mapper.Map(apartmentDtoForUpdate,apartment);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
 
-        public void UpdateOneApartment(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges)
+        public async Task UpdateOneApartmentAsync(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges)
         {
-            var entity = _manager.Apartment.GetOneApartmentById(id, trackChanges);
+            var entity = await _manager.Apartment.GetOneApartmentByIdAsync(id, trackChanges);
             if (entity is null)
             {
                 throw new ApartmentNotFoundException(id);
@@ -97,7 +97,8 @@ namespace Services
             //entity.Type = apartment.Type;
             entity = _mapper.Map<Apartment>(apartmentUpdate);
             _manager.Apartment.Update(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
+
     }
 }
