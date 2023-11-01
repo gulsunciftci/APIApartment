@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 using Repositories.EFCore;
+using Services.Contracts;
 
 namespace WebApi.Controllers
 {
@@ -12,9 +13,9 @@ namespace WebApi.Controllers
     [ApiController]
     public class ApartmentController : ControllerBase
     {
-        private readonly IRepositoryManager _manager;
+        private readonly IServiceManager _manager;
 
-        public ApartmentController(IRepositoryManager manager)
+        public ApartmentController(IServiceManager manager)
         {
             _manager = manager;
         }
@@ -22,14 +23,14 @@ namespace WebApi.Controllers
         [HttpGet]
         public IActionResult GetAllApartments()
         {
-            var apartments = _manager.Apartment.GetAllApartments(false);
+            var apartments = _manager.ApartmentService.GetAllApartment(false);
             return Ok(apartments);
         }
         [HttpGet("{id:int}")]
         public IActionResult GetOneApartment([FromRoute()] int id)
         {
             var apartment = _manager
-                .Apartment.GetOneApartmentById(id, false);
+                .ApartmentService.GetOneApartmentById(id, false);
             
             if(apartment is null)
             {
@@ -44,9 +45,7 @@ namespace WebApi.Controllers
             {
                 return BadRequest();
             }
-            _manager.Apartment.CreateOneApartment(apartment);
-            _manager.Save();
-
+            _manager.ApartmentService.CreateOneApartment(apartment);
             return StatusCode(201, apartment);
         }
 
@@ -54,49 +53,24 @@ namespace WebApi.Controllers
         public IActionResult UpdateOneApartment([FromRoute(Name ="id")]int id,
          [FromBody] Apartment apartment)
         {
-            var entity = _manager
-                .Apartment
-                .GetOneApartmentById(id, true);
-            if (entity is null)
-            {
-                return NotFound();
 
-            }
-
-            if (id != apartment.Id)
+            if(apartment is null)
             {
                 return BadRequest();
             }
 
-            entity.Status = apartment.Status;
-            entity.No = apartment.No;
-            entity.Floor = apartment.Floor;
-            entity.Type = apartment.Type;
+            _manager
+                .ApartmentService
+                .UpdateOneApartment(id, apartment,true);
 
-            _manager.Save();
-
-            return Ok(apartment);
+            return NoContent();
         }
 
         [HttpDelete("{id:int}")]
         public IActionResult DeleteOneApartment([FromRoute(Name = "id")] int id)
         {
-            var entity = _manager
-                .Apartment
-                .GetOneApartmentById(id, false);
-
-            if (entity is null)
-            {
-                return NotFound(new
-                {
-                    statusCode=404,
-                    message=$"Apartment with id:{id} could not found"
-
-                });
-            }
-
-            _manager.Apartment.DeleteOneApartment(entity);
-            _manager.Save();
+           
+            _manager.ApartmentService.DeleteOneApartment(id, false);
             return NoContent();
         }
         [HttpPatch("{id:int}")]
@@ -104,7 +78,7 @@ namespace WebApi.Controllers
             [FromBody] JsonPatchDocument<Apartment> apartmentPatch)
         {
             var entity = _manager
-               .Apartment
+               .ApartmentService
                .GetOneApartmentById(id, true);
 
             if (entity is null)
@@ -114,9 +88,8 @@ namespace WebApi.Controllers
             }
 
             apartmentPatch.ApplyTo(entity);
-            _manager.Apartment.Update(entity);
-            _manager.Save();
-
+            _manager.ApartmentService.UpdateOneApartment(id, entity, true);
+           
             return NoContent();
         }
     }
