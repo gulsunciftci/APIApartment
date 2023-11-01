@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
 using System;
@@ -32,9 +33,7 @@ namespace Services
             var entity = _manager.Apartment.GetOneApartmentById(id, trackChanges);
             if(entity is null)
             {
-                string message = $"The apartment with id:{id} could not";
-                _logger.LogInfo(message);
-                throw new Exception(message);
+                throw new ApartmentNotFoundException(id);
             }
 
             _manager.Apartment.DeleteOneApartment(entity);
@@ -49,7 +48,13 @@ namespace Services
 
         public Apartment GetOneApartmentById(int id, bool trackChanges)
         {
-            return _manager.Apartment.GetOneApartmentById(id, trackChanges);
+            var apartment= _manager.Apartment.GetOneApartmentById(id, trackChanges);
+            if (apartment is null)
+            {
+                throw new ApartmentNotFoundException(id); 
+            }
+
+            return apartment;
         }
 
         public void UpdateOneApartment(int id, Apartment apartment,bool trackChanges)
@@ -57,9 +62,7 @@ namespace Services
             var entity = _manager.Apartment.GetOneApartmentById(id, trackChanges);
             if (entity is null)
             {
-                string message = $"The apartment with id:{id} could not";
-                _logger.LogInfo(message);
-                throw new Exception(message);
+                throw new ApartmentNotFoundException(id);
             }
 
             if(apartment is null)

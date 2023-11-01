@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -32,10 +33,7 @@ namespace WebApi.Controllers
             var apartment = _manager
                 .ApartmentService.GetOneApartmentById(id, false);
             
-            if(apartment is null)
-            {
-                return NotFound(); //404
-            }
+          
             return Ok(apartment);
         }
         [HttpPost]
@@ -81,11 +79,7 @@ namespace WebApi.Controllers
                .ApartmentService
                .GetOneApartmentById(id, true);
 
-            if (entity is null)
-            {
-                return NotFound();
-
-            }
+            
 
             apartmentPatch.ApplyTo(entity);
             _manager.ApartmentService.UpdateOneApartment(id, entity, true);
