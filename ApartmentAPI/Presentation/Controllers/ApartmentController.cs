@@ -1,4 +1,5 @@
-﻿using Entities.Exceptions;
+﻿using Entities.DataTransferObjects;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
@@ -37,29 +38,38 @@ namespace WebApi.Controllers
             return Ok(apartment);
         }
         [HttpPost]
-        public IActionResult CreateOneApartment([FromBody] Apartment apartment)
+        public IActionResult CreateOneApartment([FromBody] ApartmentDtoForInsertion apartment)
         {
             if (apartment is null)
             {
                 return BadRequest();
             }
+
+            if (!ModelState.IsValid)
+            {
+                return UnprocessableEntity(ModelState);
+            }
+
             _manager.ApartmentService.CreateOneApartment(apartment);
             return StatusCode(201, apartment);
         }
 
         [HttpPut("{id:int}")]
         public IActionResult UpdateOneApartment([FromRoute(Name ="id")]int id,
-         [FromBody] Apartment apartment)
+         [FromBody] ApartmentDtoForUpdate apartmentUpdate)
         {
 
-            if(apartment is null)
+            if(apartmentUpdate is null)
             {
                 return BadRequest();
             }
-
+            if (!ModelState.IsValid)
+            {
+                return UnprocessableEntity(ModelState);
+            }
             _manager
                 .ApartmentService
-                .UpdateOneApartment(id, apartment,true);
+                .UpdateOneApartment(id, apartmentUpdate,false);
 
             return NoContent();
         }
@@ -73,17 +83,27 @@ namespace WebApi.Controllers
         }
         [HttpPatch("{id:int}")]
         public IActionResult PartiallyUpdateOneApartment([FromRoute(Name = "id")] int id,
-            [FromBody] JsonPatchDocument<Apartment> apartmentPatch)
+            [FromBody] JsonPatchDocument<ApartmentDtoForUpdate> apartmentPatch)
         {
-            var entity = _manager
-               .ApartmentService
-               .GetOneApartmentById(id, true);
 
+            if(apartmentPatch is null)
+            {
+                return BadRequest();
+            }
+
+            var result = _manager.ApartmentService.GetOneApartmentForPatch(id, false);
+
+            apartmentPatch.ApplyTo(result.apartmentDtoForUpdate,ModelState);
+
+            TryValidateModel(result.apartmentDtoForUpdate);
+
+            if (!ModelState.IsValid)
+            {
+                return UnprocessableEntity(ModelState);
+            }
+
+            _manager.ApartmentService.SaveChangesForPatch(result.apartmentDtoForUpdate,result.apartment);
             
-
-            apartmentPatch.ApplyTo(entity);
-            _manager.ApartmentService.UpdateOneApartment(id, entity, true);
-           
             return NoContent();
         }
     }

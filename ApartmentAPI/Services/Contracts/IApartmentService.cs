@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DataTransferObjects;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,13 @@ namespace Services.Contracts
 {
     public interface IApartmentService
     {
-        IEnumerable<Apartment> GetAllApartment(bool trackChanges);
-        Apartment GetOneApartmentById(int id, bool trackChanges);
-        Apartment CreateOneApartment(Apartment apartment);
-        void UpdateOneApartment(int id, Apartment apartment,bool trackChanges);
+        IEnumerable<ApartmentDto> GetAllApartment(bool trackChanges);
+        ApartmentDto GetOneApartmentById(int id, bool trackChanges);
+        ApartmentDto CreateOneApartment(ApartmentDtoForInsertion apartment);
+        void UpdateOneApartment(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges);
         void DeleteOneApartment(int id, bool trackChanges);
+        (ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment) GetOneApartmentForPatch(int id, bool trackChanges);
+
+        void SaveChangesForPatch(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment);
     }
 }

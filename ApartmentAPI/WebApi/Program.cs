@@ -1,3 +1,5 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using NLog;
@@ -17,16 +19,38 @@ internal class Program
 
         // Add services to the container.
 
-        builder.Services.AddControllers()
+        builder.Services.AddControllers(config => {
+
+            config.RespectBrowserAcceptHeader = true;
+            config.ReturnHttpNotAcceptable = true;
+        
+        })
+            //.AddXmlDataContractSerializerFormatters()
+             //.AddCustomCsvFormatter()
             .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
             .AddNewtonsoftJson(); //PATCH metodu için
-                                  // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+
+
+
+
+
+
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+        builder.Services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+        
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.ConfigureSqlContext(builder.Configuration);
         builder.Services.ConfigureRepositoryManager();
         builder.Services.ConfigureServiceManager();
         builder.Services.ConfigureLoggerService();
+        builder.Services.AddAutoMapper(typeof(Program));
 
         var app = builder.Build();
 
