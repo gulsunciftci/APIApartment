@@ -3,6 +3,7 @@ using Entities.Models;
 using Entities.RequestFeatures;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Services.Contracts
 {
     public interface IApartmentService
     {
-        Task<(IEnumerable<ApartmentDto>  apartments,MetaData metaData)> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges);
+        Task<(IEnumerable<ExpandoObject>  apartments,MetaData metaData)> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges);
         Task<ApartmentDto> GetOneApartmentByIdAsync(int id, bool trackChanges);
         Task<ApartmentDto> CreateOneApartmentAsync(ApartmentDtoForInsertion apartment);
         Task UpdateOneApartmentAsync(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges);

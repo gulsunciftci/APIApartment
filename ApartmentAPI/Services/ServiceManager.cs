@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entities.DataTransferObjects;
 using Repositories.Contracts;
 using Services.Contracts;
 using System;
@@ -14,10 +15,10 @@ namespace Services
     {
         private readonly Lazy<IApartmentService> _apartmentService;
         public ServiceManager(IRepositoryManager repositoryManager,
-            ILoggerService logger,IMapper mapper)
+            ILoggerService logger,IMapper mapper,IDataShaper<ApartmentDto> shaper)
         {
             _apartmentService = new Lazy<IApartmentService>(() => 
-            new ApartmentManager(repositoryManager,logger,mapper));
+            new ApartmentManager(repositoryManager,logger,mapper,shaper));
         
         }
 

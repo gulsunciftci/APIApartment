@@ -50,6 +50,7 @@ internal class Program
         builder.Services.AddAutoMapper(typeof(Program));
         builder.Services.ConfigureActionFilters();
         builder.Services.ConfigureCors();
+        builder.Services.ConfigureDataShaper();
         var app = builder.Build();
 
 

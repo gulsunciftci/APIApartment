@@ -7,6 +7,7 @@ using Repositories.Contracts;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,13 @@ namespace Services
         private readonly IRepositoryManager _manager;
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
-        public ApartmentManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper)
+        private readonly IDataShaper<ApartmentDto> _shaper;
+        public ApartmentManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IDataShaper<ApartmentDto> shaper)
         {
             _manager = manager;
             _logger = logger;
             _mapper = mapper;
+            _shaper = shaper;
         }
 
         public async Task<ApartmentDto> CreateOneApartmentAsync(ApartmentDtoForInsertion apartment)
@@ -41,7 +44,8 @@ namespace Services
 
         }
 
-        public async Task<(IEnumerable<ApartmentDto> apartments, MetaData metaData)> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges)
+        public async Task<(IEnumerable<ExpandoObject> apartments, MetaData metaData)> 
+            GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges)
         {
 
             if (!apartmentParameters.ValidFloorRange)
@@ -55,8 +59,8 @@ namespace Services
                 .GetAllApartmentsAsync(apartmentParameters, trackChanges);
 
             var apartmentsDto= _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
-
-            return (apartmentsDto, apartmentsWithMetaData.MetaData);
+            var shapedData = _shaper.ShapeData(apartmentsDto,apartmentParameters.Fields);
+            return (apartments:shapedData, metaData: apartmentsWithMetaData.MetaData);
         
         }
 
