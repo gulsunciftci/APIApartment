@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Repositories.Contracts
 {
     public interface IApartmentRepository:IRepositoryBase<Apartment>
     {
-        Task<IEnumerable<Apartment>> GetAllApartmentsAsync(bool trackChanges);
+        Task<IEnumerable<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters,bool trackChanges);
         Task<Apartment> GetOneApartmentByIdAsync(int id, bool trackChanges);
         void CreateOneApartment(Apartment apartment);
         void UpdateOneApartment(Apartment apartment);

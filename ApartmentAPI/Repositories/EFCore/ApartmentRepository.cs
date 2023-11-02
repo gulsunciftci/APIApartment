@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 using System;
@@ -21,10 +22,21 @@ namespace Repositories.EFCore
 
         public void DeleteOneApartment(Apartment apartment)=> Delete(apartment);
 
-        public async Task<IEnumerable<Apartment>> GetAllApartmentsAsync(bool trackChanges) =>
+     
+
+        public async Task<IEnumerable<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters, bool trackChanges)=>
+        
             await FindAll(trackChanges)
-            .OrderBy(b => b.Id)
-            .ToListAsync();
+           .OrderBy(b => b.Id)
+           .Skip((apartmentParameters.PageNumber-1)*apartmentParameters.PageSize)
+           .Take(apartmentParameters.PageSize)
+           .ToListAsync();
+
+
+        
+
+
+
         public async Task<Apartment> GetOneApartmentByIdAsync(int id, bool trackChanges) =>
             await FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
        

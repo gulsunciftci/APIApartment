@@ -1,6 +1,7 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllApartments()
+        public async Task<IActionResult> GetAllApartments([FromQuery]ApartmentParameters apartmentParameters)
         {
-            var apartments = await _manager.ApartmentService.GetAllApartmentAsync(false);
+            var apartments = await _manager.ApartmentService.GetAllApartmentAsync(apartmentParameters,false);
             return Ok(apartments);
         }
         [HttpGet("{id:int}")]

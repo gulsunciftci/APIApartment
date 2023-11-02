@@ -2,6 +2,7 @@
 using Entities.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Repositories.Contracts;
 using Services.Contracts;
 using System;
@@ -40,9 +41,9 @@ namespace Services
 
         }
 
-        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentAsync(bool trackChanges)
+        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges)
         {
-            var apartments= await _manager.Apartment.GetAllApartmentsAsync(trackChanges);
+            var apartments= await _manager.Apartment.GetAllApartmentsAsync(apartmentParameters,trackChanges);
             return _mapper.Map<IEnumerable<ApartmentDto>>(apartments);
         }
 
