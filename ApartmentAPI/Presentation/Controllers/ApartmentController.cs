@@ -25,7 +25,7 @@ namespace WebApi.Controllers
         {
             _manager = manager;
         }
-
+        //[HttpHead]
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetAllApartments([FromQuery]ApartmentParameters apartmentParameters)
@@ -108,5 +108,12 @@ namespace WebApi.Controllers
             
             return NoContent();
         }
+        [HttpOptions]
+        public IActionResult GetApartmentsOptions()
+        {
+            Response.Headers.Add("Allow", "GET, PUT, POST, PATCH, DELETE, HEAD, OPTIONS");
+            return Ok();
+        }
+
     }
 }
