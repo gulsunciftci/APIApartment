@@ -49,6 +49,7 @@ internal class Program
         builder.Services.ConfigureLoggerService();
         builder.Services.AddAutoMapper(typeof(Program));
         builder.Services.ConfigureActionFilters();
+        builder.Services.ConfigureCors();
         var app = builder.Build();
 
 
@@ -68,6 +69,7 @@ internal class Program
 
 
         app.UseHttpsRedirection();
+        app.UseCors("CorsPolicy");
 
         app.UseAuthorization();
 

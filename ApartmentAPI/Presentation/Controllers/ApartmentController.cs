@@ -10,6 +10,7 @@ using Presentation.ActionFilters;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services.Contracts;
+using System.Text.Json;
 
 namespace WebApi.Controllers
 {
@@ -28,8 +29,12 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllApartments([FromQuery]ApartmentParameters apartmentParameters)
         {
-            var apartments = await _manager.ApartmentService.GetAllApartmentAsync(apartmentParameters,false);
-            return Ok(apartments);
+            var pagedResult = await _manager
+                .ApartmentService.GetAllApartmentAsync(apartmentParameters,false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.apartments);
         }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOneApartment([FromRoute()] int id)

@@ -24,16 +24,20 @@ namespace Repositories.EFCore
 
      
 
-        public async Task<IEnumerable<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters, bool trackChanges)=>
-        
-            await FindAll(trackChanges)
+        public async Task<PagedList<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters, bool trackChanges)
+        {
+            var apartments = await FindAll(trackChanges)
            .OrderBy(b => b.Id)
-           .Skip((apartmentParameters.PageNumber-1)*apartmentParameters.PageSize)
-           .Take(apartmentParameters.PageSize)
-           .ToListAsync();
+            .ToListAsync();
 
 
-        
+            return PagedList<Apartment>
+                .ToPagedList(apartments,apartmentParameters.PageNumber
+                ,apartmentParameters.PageSize);
+      
+
+
+        }
 
 
 

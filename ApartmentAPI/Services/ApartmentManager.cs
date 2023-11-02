@@ -41,10 +41,16 @@ namespace Services
 
         }
 
-        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges)
+        public async Task<(IEnumerable<ApartmentDto> apartments, MetaData metaData)> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges)
         {
-            var apartments= await _manager.Apartment.GetAllApartmentsAsync(apartmentParameters,trackChanges);
-            return _mapper.Map<IEnumerable<ApartmentDto>>(apartments);
+            var apartmentsWithMetaData = await _manager
+                .Apartment
+                .GetAllApartmentsAsync(apartmentParameters, trackChanges);
+
+            var apartmentsDto= _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
+
+            return (apartmentsDto, apartmentsWithMetaData.MetaData);
+        
         }
 
         public async Task<ApartmentDto> GetOneApartmentByIdAsync(int id, bool trackChanges)

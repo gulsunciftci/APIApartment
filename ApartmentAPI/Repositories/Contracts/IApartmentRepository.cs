@@ -10,7 +10,7 @@ namespace Repositories.Contracts
 {
     public interface IApartmentRepository:IRepositoryBase<Apartment>
     {
-        Task<IEnumerable<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters,bool trackChanges);
+        Task<PagedList<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters,bool trackChanges);
         Task<Apartment> GetOneApartmentByIdAsync(int id, bool trackChanges);
         void CreateOneApartment(Apartment apartment);
         void UpdateOneApartment(Apartment apartment);
