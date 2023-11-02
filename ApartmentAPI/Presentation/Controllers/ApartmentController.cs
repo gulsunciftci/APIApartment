@@ -27,14 +27,22 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetAllApartments([FromQuery]ApartmentParameters apartmentParameters)
         {
-            var pagedResult = await _manager
-                .ApartmentService.GetAllApartmentAsync(apartmentParameters,false);
+            var linkParameters = new LinkParameters()
+            {
+                ApartmentParameters = apartmentParameters,
+                HttpContext = HttpContext
+            };
+            var resullt = await _manager
+                .ApartmentService.GetAllApartmentAsync(linkParameters,false);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(resullt.metaData));
 
-            return Ok(pagedResult.apartments);
+            return resullt.linkResponse.HasLinks ?
+                Ok(resullt.linkResponse.LinkedEntities) :
+                Ok(resullt.linkResponse.ShapedEntities);
         }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOneApartment([FromRoute()] int id)

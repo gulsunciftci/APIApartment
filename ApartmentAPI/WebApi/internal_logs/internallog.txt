@@ -202,3 +202,15 @@
 2023-11-02 17:02:26.7221 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
 2023-11-02 17:02:26.7817 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
 2023-11-02 17:02:26.8243 Info Configuration initialized.
+2023-11-02 17:38:37.5834 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-02 17:38:37.8134 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-02 17:38:37.8366 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-02 17:38:37.8593 Info Configuration initialized.
+2023-11-02 19:26:27.9670 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-02 19:26:28.0784 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-02 19:26:28.1322 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-02 19:26:28.2154 Info Configuration initialized.
+2023-11-02 19:27:24.4963 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-02 19:27:24.6517 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-02 19:27:24.7344 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-02 19:27:24.7896 Info Configuration initialized.

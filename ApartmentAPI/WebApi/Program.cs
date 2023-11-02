@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using NLog;
 using Presentation.ActionFilters;
 using Repositories.EFCore;
+using Services;
 using Services.Contracts;
 using WebApi.Extensions;
 
@@ -51,6 +52,9 @@ internal class Program
         builder.Services.ConfigureActionFilters();
         builder.Services.ConfigureCors();
         builder.Services.ConfigureDataShaper();
+        builder.Services.AddCustomMediaTypes();
+        builder.Services.AddScoped<IApartmentLinks, ApartmentLinks>();
+
         var app = builder.Build();
 
 

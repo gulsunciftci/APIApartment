@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.LinkModels;
 using Entities.Models;
 using Entities.RequestFeatures;
 using System;
@@ -12,7 +13,7 @@ namespace Services.Contracts
 {
     public interface IApartmentService
     {
-        Task<(IEnumerable<ExpandoObject>  apartments,MetaData metaData)> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges);
+        Task<(LinkResponse linkResponse, MetaData metaData)> GetAllApartmentAsync(LinkParameters linkParameters,bool trackChanges);
         Task<ApartmentDto> GetOneApartmentByIdAsync(int id, bool trackChanges);
         Task<ApartmentDto> CreateOneApartmentAsync(ApartmentDtoForInsertion apartment);
         Task UpdateOneApartmentAsync(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges);

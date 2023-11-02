@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Exceptions;
+using Entities.LinkModels;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Repositories.Contracts;
@@ -19,13 +20,13 @@ namespace Services
         private readonly IRepositoryManager _manager;
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
-        private readonly IDataShaper<ApartmentDto> _shaper;
-        public ApartmentManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IDataShaper<ApartmentDto> shaper)
+        private readonly IApartmentLinks _links;
+        public ApartmentManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IApartmentLinks links)
         {
             _manager = manager;
             _logger = logger;
             _mapper = mapper;
-            _shaper = shaper;
+            _links = links;
         }
 
         public async Task<ApartmentDto> CreateOneApartmentAsync(ApartmentDtoForInsertion apartment)
@@ -44,11 +45,11 @@ namespace Services
 
         }
 
-        public async Task<(IEnumerable<ExpandoObject> apartments, MetaData metaData)> 
-            GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges)
+        public async Task<(LinkResponse linkResponse, MetaData metaData)> 
+            GetAllApartmentAsync(LinkParameters linkParameters,bool trackChanges)
         {
 
-            if (!apartmentParameters.ValidFloorRange)
+            if (!linkParameters.ApartmentParameters.ValidFloorRange)
             {
                 throw new FloorOutofRangeBadRequestException();
             }
@@ -56,11 +57,12 @@ namespace Services
 
             var apartmentsWithMetaData = await _manager
                 .Apartment
-                .GetAllApartmentsAsync(apartmentParameters, trackChanges);
+                .GetAllApartmentsAsync(linkParameters.ApartmentParameters, trackChanges);
 
             var apartmentsDto= _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
-            var shapedData = _shaper.ShapeData(apartmentsDto,apartmentParameters.Fields);
-            return (apartments:shapedData, metaData: apartmentsWithMetaData.MetaData);
+            var links = _links.TryGenerateLinks(apartmentsDto, linkParameters.ApartmentParameters.Fields,
+                linkParameters.HttpContext);
+            return (linkResponse: links , metaData: apartmentsWithMetaData.MetaData);
         
         }
 
@@ -98,6 +100,7 @@ namespace Services
             _manager.Apartment.Update(entity);
             await _manager.SaveAsync();
         }
+
         private async Task<Apartment> GetOneBookByIdAndCheckExists(int id, bool trackChanges)
         {
             // check entity 

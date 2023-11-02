@@ -15,10 +15,10 @@ namespace Services
     {
         private readonly Lazy<IApartmentService> _apartmentService;
         public ServiceManager(IRepositoryManager repositoryManager,
-            ILoggerService logger,IMapper mapper,IDataShaper<ApartmentDto> shaper)
+            ILoggerService logger, IMapper mapper,IApartmentLinks links)
         {
             _apartmentService = new Lazy<IApartmentService>(() => 
-            new ApartmentManager(repositoryManager,logger,mapper,shaper));
+            new ApartmentManager(repositoryManager, logger, mapper,links));
         
         }
 
