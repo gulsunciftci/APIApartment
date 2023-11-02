@@ -43,6 +43,13 @@ namespace Services
 
         public async Task<(IEnumerable<ApartmentDto> apartments, MetaData metaData)> GetAllApartmentAsync(ApartmentParameters apartmentParameters,bool trackChanges)
         {
+
+            if (!apartmentParameters.ValidFloorRange)
+            {
+                throw new FloorOutofRangeBadRequestException();
+            }
+
+
             var apartmentsWithMetaData = await _manager
                 .Apartment
                 .GetAllApartmentsAsync(apartmentParameters, trackChanges);

@@ -2,6 +2,7 @@
 using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
+using Repositories.EFCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,9 @@ namespace Repositories.EFCore
         public async Task<PagedList<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters, bool trackChanges)
         {
             var apartments = await FindAll(trackChanges)
-           .OrderBy(b => b.Id)
+             .FilterApartments(apartmentParameters.MinFloor,apartmentParameters.MaxFloor)
+             .Search(apartmentParameters.SearchTerm)
+             .Sort(apartmentParameters.OrderBy)
             .ToListAsync();
 
 

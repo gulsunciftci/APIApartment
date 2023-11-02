@@ -2,11 +2,12 @@
 {
     public class ApartmentParameters : RequestParameters
 	{
-		public uint MinPrice { get; set; }
-		public uint MaxPrice { get; set; } = 1000;
-		public bool ValidPriceRange => MaxPrice > MinPrice;
+		public uint MinFloor { get; set; }
+		public uint MaxFloor { get; set; } = 1000;
+		public bool ValidFloorRange => MaxFloor > MinFloor;
 
-		public String? SearchTerm { get; set; }
+
+        public String? SearchTerm { get; set; }
 
 		public ApartmentParameters()
 		{
