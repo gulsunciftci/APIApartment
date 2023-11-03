@@ -42,7 +42,12 @@ namespace Repositories.EFCore
 
         }
 
-
+        public async Task<List<Apartment>> GetAllApartmentsAsync(bool trackChanges)
+        {
+            return await FindAll(trackChanges)
+                .OrderBy(b=>b.Id)
+                .ToListAsync();
+        }
 
         public async Task<Apartment> GetOneApartmentByIdAsync(int id, bool trackChanges) =>
             await FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefaultAsync();

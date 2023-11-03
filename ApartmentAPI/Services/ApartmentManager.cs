@@ -66,6 +66,12 @@ namespace Services
         
         }
 
+        public async Task<List<Apartment>> GetAllApartmentsAsync(bool trackChanges)
+        {
+            var apartments = await _manager.Apartment.GetAllApartmentsAsync(trackChanges);
+            return apartments;
+        }
+
         public async Task<ApartmentDto> GetOneApartmentByIdAsync(int id, bool trackChanges)
         {
             var entity = await GetOneBookByIdAndCheckExists(id, trackChanges);

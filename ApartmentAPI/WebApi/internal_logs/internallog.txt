@@ -214,3 +214,35 @@
 2023-11-02 19:27:24.6517 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
 2023-11-02 19:27:24.7344 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
 2023-11-02 19:27:24.7896 Info Configuration initialized.
+2023-11-03 07:57:22.1855 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 07:57:22.2640 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 07:57:22.3046 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 07:57:22.3524 Info Configuration initialized.
+2023-11-03 07:59:45.6219 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 07:59:45.7960 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 07:59:45.8771 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 07:59:45.9445 Info Configuration initialized.
+2023-11-03 08:23:32.1147 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 08:23:32.1903 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 08:23:32.2310 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 08:23:32.2700 Info Configuration initialized.
+2023-11-03 08:32:08.9966 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 08:32:09.0763 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 08:32:09.1201 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 08:32:09.1566 Info Configuration initialized.
+2023-11-03 08:56:51.8324 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 08:56:51.9301 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 08:56:51.9626 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 08:56:51.9987 Info Configuration initialized.
+2023-11-03 08:58:57.4744 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 08:58:57.5749 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 08:58:57.6256 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 08:58:57.6599 Info Configuration initialized.
+2023-11-03 09:00:36.4081 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 09:00:36.5201 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 09:00:36.5787 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 09:00:36.6484 Info Configuration initialized.
+2023-11-03 09:07:35.6838 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-11-03 09:07:35.7400 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-03 09:07:35.7651 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Hp\source\repos\APIApartment\ApartmentAPI\WebApi\nlog.config
+2023-11-03 09:07:35.7878 Info Configuration initialized.

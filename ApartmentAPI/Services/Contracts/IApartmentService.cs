@@ -19,7 +19,7 @@ namespace Services.Contracts
         Task UpdateOneApartmentAsync(int id, ApartmentDtoForUpdate apartmentUpdate,bool trackChanges);
         Task DeleteOneApartmentAsync(int id, bool trackChanges);
         Task<(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment)> GetOneApartmentForPatchAsync(int id, bool trackChanges);
-
+        Task<List<Apartment>> GetAllApartmentsAsync(bool trackChanges);
         Task SaveChangesForPatchAsync(ApartmentDtoForUpdate apartmentDtoForUpdate, Apartment apartment);
     }
 }

@@ -2,6 +2,7 @@
 using Entities.Exceptions;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,8 @@ namespace WebApi.Controllers
 {
     [ServiceFilter(typeof(LogFilterAttribute))]
     [Route("api/[controller]/[action]")]
+    //[ResponseCache(CacheProfileName ="5mins")]
+    //[HttpCacheExpiration(CacheLocation =CacheLocation.Public,MaxAge =80)]
     [ApiController]
     public class ApartmentController : ControllerBase
     {
@@ -28,6 +31,7 @@ namespace WebApi.Controllers
         //[HttpHead]
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [ResponseCache(Duration =60)]
         public async Task<IActionResult> GetAllApartments([FromQuery]ApartmentParameters apartmentParameters)
         {
             var linkParameters = new LinkParameters()

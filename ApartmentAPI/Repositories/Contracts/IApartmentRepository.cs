@@ -15,5 +15,6 @@ namespace Repositories.Contracts
         void CreateOneApartment(Apartment apartment);
         void UpdateOneApartment(Apartment apartment);
         void DeleteOneApartment(Apartment apartment);
+        Task<List<Apartment>> GetAllApartmentsAsync(bool trackChanges);
     }
 }
